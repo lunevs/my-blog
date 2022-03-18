@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import Note from './components/notes'
 
 const Hello = ({ age, name }) => {
 
@@ -50,7 +51,8 @@ const Statisticks = ({pos, neg, neu}) => {
     )
 }
 
-const App = () => {
+const App = ({notes}) => {
+
     const [counter, setCounter] = useState(0);
     const [clicks, setClicks] = useState({
         left: 0,
@@ -153,6 +155,19 @@ const App = () => {
             <h1>Anecdote with the most votes</h1>
             <div>{anecdotes[votes.indexOf(getMaxOfArray(votes))]}</div>
             <p>has {getMaxOfArray(votes)} votes</p>
+
+            <br />
+            <hr />
+            <br />
+            <br />
+
+            <div>
+                <h1>Notes</h1>
+                <ul>
+                    {notes.map(note => <Note id={note.id} content={note.content} />) }
+                </ul>
+            </div>
+
 
         </div>
     )
