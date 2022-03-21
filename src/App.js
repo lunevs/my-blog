@@ -1,18 +1,9 @@
 import './App.css';
 import { useState } from 'react';
 import Note from './components/notes'
+import Statistics from './components/stats'
+import History from "./components/history";
 
-const Hello = ({ age, name }) => {
-
-    const bornYear = () => new Date().getFullYear() - age
-
-    return (
-        <div>
-            <p>Hello {name}! You are {age} years old</p>
-            <p>You were probably born in {bornYear()}</p>
-        </div>
-    )
-}
 
 const Display = ({counter}) => <div>{counter}</div>
 const Button = ({text, handleClick}) => (
@@ -20,36 +11,6 @@ const Button = ({text, handleClick}) => (
         {text}
     </button>
 )
-
-const History = (props) => {
-    if (props.allClicks.length === 0) {
-        return (
-            <div>the app is used by pressings the buttons</div>
-        )
-    }
-    return (
-        <div>
-            button press history: {props.allClicks.join(' ')}
-        </div>
-    )
-}
-
-const Statisticks = ({pos, neg, neu}) => {
-    if (pos + neg + neu === 0) {
-        return <div>No feedback given</div>
-    }
-    return (
-        <div>
-            <h1>statistics:</h1>
-            <p>good: {pos}</p>
-            <p>neutral: {neu}</p>
-            <p>bad: {neg}</p>
-            <p>all: {neg + pos + neu}</p>
-            <p>average: {(pos - neg)/(neg + pos + neu)}</p>
-            <p>positive: {100 * pos / (neg + pos + neu)}</p>
-        </div>
-    )
-}
 
 const App = ({notes}) => {
 
@@ -139,7 +100,7 @@ const App = ({notes}) => {
             <Button handleClick={goodFeedback} text="good job" />
             <Button handleClick={neutralFeedback} text="I am neutral" />
             <Button handleClick={badFeedback} text="oy, bad!" />
-            <Statisticks neg={feedback.bad} pos={feedback.good} neu={feedback.neutral} />
+            <Statistics neg={feedback.bad} pos={feedback.good} neu={feedback.neutral} />
 
             <br />
             <hr />
