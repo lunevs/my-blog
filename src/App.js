@@ -1,9 +1,10 @@
 import './App.css';
 import { useState } from 'react';
-import Note from './components/notes'
-import Statistics from './components/stats'
+import Note from './components/notes';
+import Statistics from './components/stats';
 import History from "./components/history";
-
+import Course from './components/course';
+import Phonebook from './components/phonebook';
 
 const Display = ({counter}) => <div>{counter}</div>
 const Button = ({text, handleClick}) => (
@@ -74,6 +75,29 @@ const App = ({notes}) => {
 
     return (
         <div>
+
+            <Phonebook />
+
+            <br />
+            <hr />
+            <br />
+            <br />
+
+            <Course />
+
+            <br />
+            <hr />
+            <br />
+            <br />
+
+            <Note notes={notes} />
+
+
+            <br />
+            <hr />
+            <br />
+            <br />
+
             <p>It's now {t.toString()}</p>
             <Display counter={counter} />
             <Button handleClick={increaseByOne} text="increaseByOne" />
@@ -116,18 +140,6 @@ const App = ({notes}) => {
             <h1>Anecdote with the most votes</h1>
             <div>{anecdotes[votes.indexOf(getMaxOfArray(votes))]}</div>
             <p>has {getMaxOfArray(votes)} votes</p>
-
-            <br />
-            <hr />
-            <br />
-            <br />
-
-            <div>
-                <h1>Notes</h1>
-                <ul>
-                    {notes.map(note => <Note id={note.id} content={note.content} />) }
-                </ul>
-            </div>
 
 
         </div>
