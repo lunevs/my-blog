@@ -13,7 +13,7 @@ const Button = ({text, handleClick}) => (
     </button>
 )
 
-const App = ({notes}) => {
+const App = () => {
 
     const [counter, setCounter] = useState(0);
     const [clicks, setClicks] = useState({
@@ -90,7 +90,7 @@ const App = ({notes}) => {
             <br />
             <br />
 
-            <Note notes={notes} />
+            <Note />
 
 
             <br />
