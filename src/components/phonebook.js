@@ -18,9 +18,7 @@ const PhonebookAddContact = (props) => {
         <div>
             <h2>add new contact</h2>
             <form onSubmit={props.submitHandler}>
-                <div>
-                    {props.addStatus}
-                </div>
+                <input type="hidden" value={props.id} />
                 <div>name: <input value={props.newName} onChange={props.changeNameHandler} /></div>
                 <div>phone: <input value={props.newPhone} onChange={props.changePhoneHandler} /></div>
                 <div>
@@ -39,7 +37,6 @@ const Phonebook = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
-    const [addStatus, setAddStatus] = useState('')
     const [filterPhones, setFilterPhones] = useState('')
 
     useEffect(() => {
@@ -52,19 +49,35 @@ const Phonebook = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        if (persons.findIndex(el => el.name === newName) === -1) {
+        let elIndex = persons.findIndex(el => el.name === newName);
+        if (elIndex === -1) {
             const newPerson = {
                 name: newName,
                 number: newPhone,
                 id: persons.length + 1
             }
-            setPersons(persons.concat(newPerson));
+            axios
+                .post("http://localhost:3002/persons", newPerson)
+                .then(response => setPersons(persons.concat(response.data)))
             setNewName('');
             setNewPhone('');
-            setAddStatus('');
         } else {
-            const newStatus = `${newName} is already added to phonebook`;
-            setAddStatus(newStatus);
+            elIndex += 1;
+            const newPerson = {
+                name: newName,
+                number: newPhone,
+                id: elIndex
+            }
+            const isTrue = window.confirm(`Are you sure? You want change the number ${newName}?`);
+            if (isTrue) {
+                axios
+                    .put(`http://localhost:3002/persons/${elIndex}`, newPerson)
+                    .then(response => {
+                        setPersons(persons.map(p => p.id !== elIndex ? p : response.data))
+                    })
+            }
+            setNewName('');
+            setNewPhone('');
         }
     }
     const changeNameHandler = (event) => {
@@ -85,7 +98,6 @@ const Phonebook = () => {
 
             <PhonebookAddContact
                 submitHandler={submitHandler}
-                addStatus={addStatus}
                 newName={newName}
                 newPhone={newPhone}
                 changeNameHandler={changeNameHandler}
