@@ -5,6 +5,7 @@ import Statistics from './components/stats';
 import History from "./components/history";
 import Course from './components/course';
 import Phonebook from './components/phonebook';
+import Countries from "./components/countries";
 
 const Display = ({counter}) => <div>{counter}</div>
 const Button = ({text, handleClick}) => (
@@ -75,6 +76,13 @@ const App = () => {
 
     return (
         <div>
+
+            <Countries />
+
+            <br />
+            <hr />
+            <br />
+            <br />
 
             <Phonebook />
 

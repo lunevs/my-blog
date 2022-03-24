@@ -1,12 +1,13 @@
 import React from "react";
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import axios from "axios";
 
 const PhonebookDisplay = ({showPhones}) => {
     return (
         <div>
             <h2>Numbers</h2>
             {showPhones.map(p => (
-                <div key={p.id}>{p.name} - {p.phone}</div>
+                <div key={p.id}>{p.name} - {p.number}</div>
             ))}
         </div>
     )
@@ -35,16 +36,17 @@ const PhonebookFilter = ({clickHandler}) => {
 }
 
 const Phonebook = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', phone: '040-123456', id: 1 },
-        { name: 'Ada Lovelace', phone: '39-44-5323523', id: 2 },
-        { name: 'Dan Abramov', phone: '12-43-234345', id: 3 },
-        { name: 'Mary Poppendieck', phone: '39-23-6423122', id: 4 }
-    ])
+    const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
     const [addStatus, setAddStatus] = useState('')
     const [filterPhones, setFilterPhones] = useState('')
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:3002/persons")
+            .then(response => setPersons(response.data))
+    }, [])
 
     const showPhones = persons.filter(el => el.name.toLowerCase().includes(filterPhones.toLowerCase()));
 
@@ -53,7 +55,7 @@ const Phonebook = () => {
         if (persons.findIndex(el => el.name === newName) === -1) {
             const newPerson = {
                 name: newName,
-                phone: newPhone,
+                number: newPhone,
                 id: persons.length + 1
             }
             setPersons(persons.concat(newPerson));
