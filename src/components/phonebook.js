@@ -1,6 +1,7 @@
 import React from "react";
 import {useState, useEffect} from "react";
 import axios from "axios";
+import Notification from "./notification";
 
 const PhonebookDisplay = ({showPhones, deleteHandle}) => {
     return (
@@ -37,10 +38,11 @@ const PhonebookFilter = ({clickHandler}) => {
 }
 
 const Phonebook = () => {
-    const [persons, setPersons] = useState([])
-    const [newName, setNewName] = useState('')
-    const [newPhone, setNewPhone] = useState('')
-    const [filterPhones, setFilterPhones] = useState('')
+    const [persons, setPersons] = useState([]);
+    const [newName, setNewName] = useState('');
+    const [newPhone, setNewPhone] = useState('');
+    const [filterPhones, setFilterPhones] = useState('');
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         axios
@@ -53,6 +55,7 @@ const Phonebook = () => {
     const submitHandler = (event) => {
         event.preventDefault();
         let elIndex = persons.findIndex(el => el.name === newName);
+        console.log("submit handler", elIndex, newName);
         if (elIndex === -1) {
             const newPerson = {
                 name: newName,
@@ -65,18 +68,27 @@ const Phonebook = () => {
             setNewName('');
             setNewPhone('');
         } else {
-            elIndex += 1;
+            elIndex = persons[elIndex].id;
             const newPerson = {
                 name: newName,
                 number: newPhone,
                 id: elIndex
             }
-            const isTrue = window.confirm(`Are you sure? You want change the number ${newName}?`);
+            const isTrue = true; //window.confirm(`Are you sure? You want change the number ${newName}?`);
             if (isTrue) {
                 axios
                     .put(`http://localhost:3002/persons/${elIndex}`, newPerson)
                     .then(response => {
                         setPersons(persons.map(p => p.id !== elIndex ? p : response.data))
+                    })
+                    .catch(error => {
+                        setErrorMessage(`user ${newName} already deleted`)
+                        setTimeout(() => {
+                            setErrorMessage(null)
+                        }, 5000)
+                        console.log("remove person", elIndex)
+                        setPersons(persons.filter(p => p.id !== elIndex))
+                        console.log("removed")
                     })
             }
             setNewName('');
@@ -106,6 +118,7 @@ const Phonebook = () => {
     return (
         <div>
             <h1>Phonebook</h1>
+            <Notification message={errorMessage} />
 
             <PhonebookFilter clickHandler={changeFilterHandler} />
 
