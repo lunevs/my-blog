@@ -2,12 +2,15 @@ import React from "react";
 import {useState, useEffect} from "react";
 import axios from "axios";
 
-const PhonebookDisplay = ({showPhones}) => {
+const PhonebookDisplay = ({showPhones, deleteHandle}) => {
     return (
         <div>
             <h2>Numbers</h2>
             {showPhones.map(p => (
-                <div key={p.id}>{p.name} - {p.number}</div>
+                <div key={p.id}>
+                    {p.name} - {p.number}
+                    <button onClick={() => deleteHandle(p.id)} >delete phone</button>
+                </div>
             ))}
         </div>
     )
@@ -54,7 +57,7 @@ const Phonebook = () => {
             const newPerson = {
                 name: newName,
                 number: newPhone,
-                id: persons.length + 1
+                id: persons[persons.length - 1].id + 1
             }
             axios
                 .post("http://localhost:3002/persons", newPerson)
@@ -90,6 +93,16 @@ const Phonebook = () => {
         setFilterPhones(event.target.value);
     }
 
+    const deleteHandle = (phoneId) => {
+        console.log("delete phone: ", phoneId)
+        axios
+            .delete(`http://localhost:3002/persons/${phoneId}`)
+            .then(response => {
+                console.log(response.data)
+                setPersons(persons.filter(p => p.id !== phoneId))
+            })
+    }
+
     return (
         <div>
             <h1>Phonebook</h1>
@@ -104,7 +117,7 @@ const Phonebook = () => {
                 changePhoneHandler={changePhoneHandler}
             />
 
-            <PhonebookDisplay showPhones={showPhones} />
+            <PhonebookDisplay showPhones={showPhones} deleteHandle={deleteHandle}/>
 
         </div>
     )

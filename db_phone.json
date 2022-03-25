@@ -6,11 +6,6 @@
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -21,24 +16,24 @@
       "id": 4
     },
     {
-      "name": "qwe",
-      "number": "555",
-      "id": 5
-    },
-    {
-      "name": "qqq",
-      "number": "222",
-      "id": 6
-    },
-    {
-      "name": "www",
-      "number": "333",
+      "name": "asd",
+      "number": "23423423",
       "id": 7
     },
     {
-      "name": "asd",
-      "number": "44-45552-22",
+      "name": "dfg",
+      "number": "23423423",
       "id": 8
+    },
+    {
+      "name": "bbb",
+      "number": "23423423",
+      "id": 9
+    },
+    {
+      "name": "eee",
+      "number": "23423423423",
+      "id": 10
     }
   ]
 }
