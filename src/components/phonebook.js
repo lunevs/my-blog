@@ -46,7 +46,7 @@ const Phonebook = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:3002/persons")
+            .get("/api/persons")
             .then(response => setPersons(response.data))
     }, [])
 
@@ -63,7 +63,7 @@ const Phonebook = () => {
                 id: persons[persons.length - 1].id + 1
             }
             axios
-                .post("http://localhost:3002/persons", newPerson)
+                .post("/api/persons", newPerson)
                 .then(response => setPersons(persons.concat(response.data)))
             setNewName('');
             setNewPhone('');
@@ -77,7 +77,7 @@ const Phonebook = () => {
             const isTrue = true; //window.confirm(`Are you sure? You want change the number ${newName}?`);
             if (isTrue) {
                 axios
-                    .put(`http://localhost:3002/persons/${elIndex}`, newPerson)
+                    .put(`/api/persons/${elIndex}`, newPerson)
                     .then(response => {
                         setPersons(persons.map(p => p.id !== elIndex ? p : response.data))
                     })
@@ -108,7 +108,7 @@ const Phonebook = () => {
     const deleteHandle = (phoneId) => {
         console.log("delete phone: ", phoneId)
         axios
-            .delete(`http://localhost:3002/persons/${phoneId}`)
+            .delete(`/api/persons/${phoneId}`)
             .then(response => {
                 console.log(response.data)
                 setPersons(persons.filter(p => p.id !== phoneId))
