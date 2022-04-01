@@ -50,6 +50,9 @@ const Phonebook = () => {
             .then(response => setPersons(response.data))
     }, [])
 
+    console.log("get persons:", persons)
+    console.log("current filter:", filterPhones)
+
     const showPhones = persons.filter(el => el.name.toLowerCase().includes(filterPhones.toLowerCase()));
 
     const submitHandler = (event) => {
@@ -59,12 +62,21 @@ const Phonebook = () => {
         if (elIndex === -1) {
             const newPerson = {
                 name: newName,
-                number: newPhone,
-                id: persons[persons.length - 1].id + 1
+                number: newPhone
             }
             axios
                 .post("/api/persons", newPerson)
-                .then(response => setPersons(persons.concat(response.data)))
+                .then(response => {
+                    console.log(response.data)
+                    setPersons(persons.concat(response.data))
+                })
+                .catch(error => {
+                    const mes = error.response.data.error
+                    setErrorMessage(mes)
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 5000)
+                })
             setNewName('');
             setNewPhone('');
         } else {
