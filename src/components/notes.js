@@ -3,12 +3,13 @@ import {useState, useEffect} from 'react';
 import noteService from '../services/notes';
 import Notification from "./notification";
 
-const NoteElement = ({note, toggleImportance}) => {
+const NoteElement = ({note, toggleImportance, deleteNote}) => {
     const label = note.important ? 'make not important' : 'make important'
     return (
         <li>
             {note.content}
             <button onClick={toggleImportance}>{label}</button>
+            <button onClick={deleteNote}>del</button>
         </li>
     )
 }
@@ -69,6 +70,16 @@ const Note = () => {
             })
     }
 
+    const deleteNote = (id) => {
+        console.log("delete node", id)
+        noteService
+            .remove(id)
+            .then(response => {
+                console.log(response.data)
+                setNotes(notes.filter(el => el.id !== id))
+            })
+    }
+
     return (
         <div>
             <h1>Notes</h1>
@@ -83,6 +94,7 @@ const Note = () => {
                             key={note.id}
                             note={note}
                             toggleImportance={() => toggleImportanceOf(note.id)}
+                            deleteNote = {() => deleteNote(note.id)}
                         />
                     )
                 }
