@@ -2,6 +2,7 @@ import React from "react";
 import {useState, useEffect} from "react";
 import axios from "axios";
 import Notification from "./notification";
+const baseUrl = 'http://localhost/api/persons'
 
 const PhonebookDisplay = ({showPhones, deleteHandle}) => {
     return (
@@ -46,7 +47,7 @@ const Phonebook = () => {
 
     useEffect(() => {
         axios
-            .get("/api/persons")
+            .get(baseUrl)
             .then(response => setPersons(response.data))
     }, [])
 
@@ -65,7 +66,7 @@ const Phonebook = () => {
                 number: newPhone
             }
             axios
-                .post("/api/persons", newPerson)
+                .post(baseUrl, newPerson)
                 .then(response => {
                     console.log(response.data)
                     setPersons(persons.concat(response.data))
@@ -89,7 +90,7 @@ const Phonebook = () => {
             const isTrue = true; //window.confirm(`Are you sure? You want change the number ${newName}?`);
             if (isTrue) {
                 axios
-                    .put(`/api/persons/${elIndex}`, newPerson)
+                    .put(`${baseUrl}/${elIndex}`, newPerson)
                     .then(response => {
                         setPersons(persons.map(p => p.id !== elIndex ? p : response.data))
                     })
@@ -120,7 +121,7 @@ const Phonebook = () => {
     const deleteHandle = (phoneId) => {
         console.log("delete phone: ", phoneId)
         axios
-            .delete(`/api/persons/${phoneId}`)
+            .delete(`${baseUrl}/${phoneId}`)
             .then(response => {
                 console.log(response.data)
                 setPersons(persons.filter(p => p.id !== phoneId))

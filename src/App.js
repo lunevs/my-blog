@@ -77,6 +77,14 @@ const App = () => {
     return (
         <div>
 
+            <Note />
+
+
+            <br />
+            <hr />
+            <br />
+            <br />
+
             <Countries />
 
             <br />
@@ -98,13 +106,6 @@ const App = () => {
             <br />
             <br />
 
-            <Note />
-
-
-            <br />
-            <hr />
-            <br />
-            <br />
 
             <p>It's now {t.toString()}</p>
             <Display counter={counter} />
