@@ -6,6 +6,7 @@ import LoginForm from './loginform'
 import Togglable from './togglable'
 
 const BlogElement = ({ blog, deleteBlog }) => {
+    console.log(blog)
     return (
         <li>
             <h2>{blog.title} <button>hide</button></h2>
@@ -158,7 +159,7 @@ const Blog = () => {
                         <BlogElement
                             key={blog.id}
                             blog={blog}
-                            deleteNote = {() => deleteBlog(blog.id)}
+                            deleteBlog = {() => deleteBlog(blog.id)}
                         />
                     )
                 }
