@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const History = (props) => {
     if (props.allClicks.length === 0) {
@@ -13,5 +13,5 @@ const History = (props) => {
     )
 }
 
-export default History;
+export default History
 

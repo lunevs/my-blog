@@ -1,10 +1,10 @@
-import React from "react";
-import {useState, useEffect} from "react";
-import axios from "axios";
-import Notification from "./notification";
+import React from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import Notification from './notification'
 const baseUrl = 'http://localhost/api/persons'
 
-const PhonebookDisplay = ({showPhones, deleteHandle}) => {
+const PhonebookDisplay = ({ showPhones, deleteHandle }) => {
     return (
         <div>
             <h2>Numbers</h2>
@@ -34,16 +34,16 @@ const PhonebookAddContact = (props) => {
     )
 }
 
-const PhonebookFilter = ({clickHandler}) => {
+const PhonebookFilter = ({ clickHandler }) => {
     return <div>filter shown with: <input onChange={clickHandler} /></div>
 }
 
 const Phonebook = () => {
-    const [persons, setPersons] = useState([]);
-    const [newName, setNewName] = useState('');
-    const [newPhone, setNewPhone] = useState('');
-    const [filterPhones, setFilterPhones] = useState('');
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [persons, setPersons] = useState([])
+    const [newName, setNewName] = useState('')
+    const [newPhone, setNewPhone] = useState('')
+    const [filterPhones, setFilterPhones] = useState('')
+    const [errorMessage, setErrorMessage] = useState(null)
 
     useEffect(() => {
         axios
@@ -51,15 +51,15 @@ const Phonebook = () => {
             .then(response => setPersons(response.data))
     }, [])
 
-    console.log("get persons:", persons)
-    console.log("current filter:", filterPhones)
+    console.log('get persons:', persons)
+    console.log('current filter:', filterPhones)
 
-    const showPhones = persons.filter(el => el.name.toLowerCase().includes(filterPhones.toLowerCase()));
+    const showPhones = persons.filter(el => el.name.toLowerCase().includes(filterPhones.toLowerCase()))
 
     const submitHandler = (event) => {
-        event.preventDefault();
-        let elIndex = persons.findIndex(el => el.name === newName);
-        console.log("submit handler", elIndex, newName);
+        event.preventDefault()
+        let elIndex = persons.findIndex(el => el.name === newName)
+        console.log('submit handler', elIndex, newName)
         if (elIndex === -1) {
             const newPerson = {
                 name: newName,
@@ -78,48 +78,48 @@ const Phonebook = () => {
                         setErrorMessage(null)
                     }, 5000)
                 })
-            setNewName('');
-            setNewPhone('');
+            setNewName('')
+            setNewPhone('')
         } else {
-            elIndex = persons[elIndex].id;
+            elIndex = persons[elIndex].id
             const newPerson = {
                 name: newName,
                 number: newPhone,
                 id: elIndex
             }
-            const isTrue = true; //window.confirm(`Are you sure? You want change the number ${newName}?`);
+            const isTrue = true //window.confirm(`Are you sure? You want change the number ${newName}?`);
             if (isTrue) {
                 axios
                     .put(`${baseUrl}/${elIndex}`, newPerson)
                     .then(response => {
                         setPersons(persons.map(p => p.id !== elIndex ? p : response.data))
                     })
-                    .catch(error => {
+                    .catch(() => {
                         setErrorMessage(`user ${newName} already deleted`)
                         setTimeout(() => {
                             setErrorMessage(null)
                         }, 5000)
-                        console.log("remove person", elIndex)
+                        console.log('remove person', elIndex)
                         setPersons(persons.filter(p => p.id !== elIndex))
-                        console.log("removed")
+                        console.log('removed')
                     })
             }
-            setNewName('');
-            setNewPhone('');
+            setNewName('')
+            setNewPhone('')
         }
     }
     const changeNameHandler = (event) => {
-        setNewName(event.target.value);
+        setNewName(event.target.value)
     }
     const changePhoneHandler = (event) => {
-        setNewPhone(event.target.value);
+        setNewPhone(event.target.value)
     }
     const changeFilterHandler = (event) => {
-        setFilterPhones(event.target.value);
+        setFilterPhones(event.target.value)
     }
 
     const deleteHandle = (phoneId) => {
-        console.log("delete phone: ", phoneId)
+        console.log('delete phone: ', phoneId)
         axios
             .delete(`${baseUrl}/${phoneId}`)
             .then(response => {
@@ -147,6 +147,6 @@ const Phonebook = () => {
 
         </div>
     )
-};
+}
 
-export default Phonebook;
+export default Phonebook

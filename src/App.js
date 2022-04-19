@@ -1,22 +1,23 @@
-import './App.css';
-import { useState } from 'react';
-import Note from './components/notes';
-import Statistics from './components/stats';
-import History from "./components/history";
-import Course from './components/course';
-import Phonebook from './components/phonebook';
-import Countries from "./components/countries";
+import './App.css'
+import { useState } from 'react'
+import Note from './components/notes'
+import Statistics from './components/stats'
+import History from './components/history'
+import Course from './components/course'
+import Phonebook from './components/phonebook'
+import Countries from './components/countries'
+import Blogs from './components/blogs'
 
-const Display = ({counter}) => <div>{counter}</div>
-const Button = ({text, handleClick}) => (
-    <button onClick={handleClick}>
+const Display = ({ counter }) => <div>{counter}</div>
+const Button = ({ text, handleClick }) => (
+    <button onClick={ handleClick }>
         {text}
     </button>
 )
 
 const App = () => {
 
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(0)
     const [clicks, setClicks] = useState({
         left: 0,
         right: 0
@@ -55,18 +56,18 @@ const App = () => {
 
     const handleLeftClick = () => {
         setAll(allClicks.concat('L'))
-        setClicks({...clicks, left: clicks.left + 1})
+        setClicks({ ...clicks, left: clicks.left + 1 })
     }
     const handleRightClick = () => {
         setAll(allClicks.concat('R'))
-        setClicks({...clicks, right: clicks.right + 1})
+        setClicks({ ...clicks, right: clicks.right + 1 })
     }
 
     const t = new Date()
 
-    const goodFeedback = () => setFeedback({...feedback, good: feedback.good + 1})
-    const neutralFeedback = () => setFeedback({...feedback, neutral: feedback.neutral + 1})
-    const badFeedback = () => setFeedback({...feedback, bad: feedback.bad + 1})
+    const goodFeedback = () => setFeedback({ ...feedback, good: feedback.good + 1 })
+    const neutralFeedback = () => setFeedback({ ...feedback, neutral: feedback.neutral + 1 })
+    const badFeedback = () => setFeedback({ ...feedback, bad: feedback.bad + 1 })
 
     const increaseByOne = () => setCounter(counter + 1)
     const decreaseByOne = () => setCounter(counter - 1)
@@ -99,6 +100,13 @@ const App = () => {
             <br />
             <br />
 
+            <Blogs />
+
+            <br />
+            <hr />
+            <br />
+            <br />
+
             <Course />
 
             <br />
@@ -107,7 +115,7 @@ const App = () => {
             <br />
 
 
-            <p>It's now {t.toString()}</p>
+            <p>It is now {t.toString()}</p>
             <Display counter={counter} />
             <Button handleClick={increaseByOne} text="increaseByOne" />
             <Button handleClick={decreaseByOne} text="decreaseByOne" />
@@ -155,4 +163,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default App

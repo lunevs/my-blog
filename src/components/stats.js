@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-const Statistics = ({pos, neg, neu}) => {
+const Statistics = ({ pos, neg, neu }) => {
     if (pos + neg + neu === 0) {
         return <div>No feedback given</div>
     }

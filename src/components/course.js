@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-const CourseElement = ({items}) => {
+const CourseElement = ({ items }) => {
     const total = items.parts.reduce((p, c) => p + c.exercises, 0)
     return (
         <div>
@@ -74,4 +74,4 @@ const Course = () => {
 
 }
 
-export default Course;
+export default Course
