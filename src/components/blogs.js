@@ -4,33 +4,21 @@ import blogService from '../services/blogs'
 import loginService from '../services/login'
 import LoginForm from './loginform'
 import Togglable from './togglable'
+import BlogElement from './blogelement'
+import AddBlogForm from './addnewblog'
 
-const BlogElement = ({ blog, deleteBlog }) => {
-    console.log(blog)
-    return (
-        <li>
-            <h2>{blog.title} <button>hide</button></h2>
-            <Togglable buttonLabel='details'>
-                <p>{blog.url}</p>
-                <p>{blog.likes}</p>
-                <p>{blog.author}</p>
-                <button onClick={deleteBlog}>remove blog</button>
-            </Togglable>
-        </li>
-    )
-}
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([])
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [user, setUser] = useState(null)
     const [newBlog, setNewBlog] = useState({
         title: '',
         author: '',
         likes: 0,
         url: ''
     })
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [user, setUser] = useState(null)
 
     useEffect(() => {
         blogService
@@ -50,9 +38,7 @@ const Blog = () => {
         }
     }, [])
 
-
-
-    const addBlog = (event) => {
+    const addBlogHandle = (event) => {
         event.preventDefault()
         const newBlogObj = {
             title: newBlog.title,
@@ -71,11 +57,9 @@ const Blog = () => {
                     url: ''
                 })
             })
-
     }
 
     const deleteBlog = (id) => {
-        console.log('delete blog', id)
         blogService
             .remove(id)
             .then(response => {
@@ -108,22 +92,6 @@ const Blog = () => {
         blogService.setToken(null)
     }
 
-    const handleTitleChange = (event) => setNewBlog({ ...newBlog, title: event.target.value })
-    const handleAuthorChange = (event) => setNewBlog({ ...newBlog, author: event.target.value })
-    const handleUrlChange = (event) => setNewBlog({ ...newBlog, url: event.target.value })
-
-    const addBlogForm = () => (
-        <Togglable buttonLabel='add New blog'>
-            <form onSubmit={addBlog}>
-                <p>Enter Title: <input value={newBlog.title} onChange={handleTitleChange} /></p>
-                <p>Enter Author: <input value={newBlog.author} onChange={handleAuthorChange} /></p>
-                <p>Enter Url: <input value={newBlog.url} onChange={handleUrlChange} /></p>
-                <button type='submit'>save data</button>
-            </form>
-        </Togglable>
-
-    )
-
     const loginForm = () => {
         return (
             <Togglable buttonLabel='login'>
@@ -149,7 +117,13 @@ const Blog = () => {
                         {user.name} logged-in
                         <button onClick={handleLogout}>logout</button>
                     </p>
-                    {addBlogForm()}
+                    <AddBlogForm
+                        newBlog={newBlog}
+                        addBlogHandle={addBlogHandle}
+                        titleChangeHandle={({ target }) => setNewBlog({ ...newBlog, title: target.value })}
+                        authorChangeHandle={({ target }) => setNewBlog({ ...newBlog, author: target.value })}
+                        urlChangeHandle={({ target }) => setNewBlog({ ...newBlog, url: target.value })}
+                    />
                 </div>
             }
             <br />
