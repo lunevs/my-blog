@@ -1,13 +1,22 @@
 import Togglable from './togglable'
 import React from 'react'
 
-const BlogElement = ({ blog, deleteBlog }) => {
+const BlogElement = ({ blog, deleteBlog, likeCurrentBlog, blogLikes }) => {
+    const blogStyle = {
+        paddingTop: 10,
+        paddingLeft: 2,
+        border: 'solid',
+        borderWidth: 1,
+        marginBottom: 5,
+        listStyle: 'none'
+    }
+
     return (
-        <li>
-            <h2>{blog.title} <button>hide</button></h2>
-            <Togglable buttonLabel='details'>
+        <li style={blogStyle}>
+            <Togglable blockTitle={blog.title} buttonLabel='details'>
+                <h2>{blog.title}</h2>
                 <p>{blog.url}</p>
-                <p>{blog.likes}</p>
+                <p>{blogLikes} <button onClick={likeCurrentBlog}>like</button></p>
                 <p>{blog.author}</p>
                 <button onClick={deleteBlog}>remove blog</button>
             </Togglable>

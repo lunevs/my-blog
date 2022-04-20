@@ -44,6 +44,17 @@ const Blog = () => {
             })
     }
 
+    const likeCurrentBlog = (id) => {
+        let newBlog = blogs.find(el => el.id === id)
+        newBlog = { ...newBlog, likes: newBlog.likes+1 }
+
+        blogService
+            .update(id, newBlog)
+            .then(() => {
+                setBlogs(blogs.map(el => (el.id !== id) ? el : newBlog))
+            })
+    }
+
     const handleLogout = async (event) => {
         event.preventDefault()
         window.localStorage.removeItem('loggedBlogappUser')
@@ -72,7 +83,9 @@ const Blog = () => {
                         <BlogElement
                             key={blog.id}
                             blog={blog}
+                            blogLikes={blog.likes}
                             deleteBlog = {() => deleteBlog(blog.id)}
+                            likeCurrentBlog = {() => likeCurrentBlog(blog.id)}
                         />
                     )
                 }
