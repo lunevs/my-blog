@@ -15,9 +15,9 @@ const BlogElement = ({ blog, deleteBlog, likeCurrentBlog, blogLikes }) => {
         <li style={blogStyle}>
             <Togglable blockTitle={blog.title} buttonLabel='details'>
                 <h2>{blog.title}</h2>
-                <p>{blog.url}</p>
-                <p>{blogLikes} <button onClick={likeCurrentBlog}>like</button></p>
                 <p>{blog.author}</p>
+                <p>{blogLikes} <button onClick={likeCurrentBlog}>like</button></p>
+                <p>{blog.url}</p>
                 <button onClick={deleteBlog}>remove blog</button>
             </Togglable>
         </li>
