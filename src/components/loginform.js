@@ -1,44 +1,68 @@
 import PropTypes from 'prop-types'
+import { useState, useRef } from 'react'
+import Togglable from './togglable'
+import loginService from '../services/login'
+import blogService from '../services/blogs'
 
-const LoginForm = ({
-    handleSubmit,
-    handleUsernameChange,
-    handlePasswordChange,
-    username,
-    password
-}) => {
+
+const LoginForm = ({ handleSetUser }) => {
+
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+    const loginFormRef = useRef()
+
+    const handleUsernameChange = (event) => setUsername(event.target.value)
+    const handlePasswordChange = (event) => setPassword(event.target.value)
+
+    const handleLogin = (event) => {
+        event.preventDefault()
+        try {
+            loginService
+                .login({ username, password })
+                .then(response => {
+                    console.log('handleLogin', response)
+                    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(response))
+                    blogService.setToken(response.token)
+                    handleSetUser(response)
+                    return response
+                })
+            setPassword('')
+            setUsername('')
+        } catch (e) {
+            console.log('Wrong credentials')
+        }
+    }
+
     return (
-        <div>
-            <h2>Login</h2>
-
-            <form onSubmit={handleSubmit}>
-                <div>
-                    username
-                    <input
-                        value={username}
-                        onChange={handleUsernameChange}
-                    />
-                </div>
-                <div>
-                    password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                </div>
-                <button type="submit">login</button>
-            </form>
-        </div>
+        <Togglable buttonLabel='login' ref={loginFormRef}>
+            <div>
+                <h2>Login</h2>
+                <form onSubmit={handleLogin}>
+                    <div>
+                        username
+                        <input
+                            value={username}
+                            onChange={handleUsernameChange}
+                        />
+                    </div>
+                    <div>
+                        password
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                    </div>
+                    <button type="submit">login</button>
+                </form>
+            </div>
+        </Togglable>
     )
 }
 
 LoginForm.propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    handleUsernameChange: PropTypes.func.isRequired,
-    handlePasswordChange: PropTypes.func.isRequired,
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired
+    handleSetUser: PropTypes.func.isRequired
 }
 
 export default LoginForm
