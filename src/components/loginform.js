@@ -43,6 +43,7 @@ const LoginForm = ({ handleSetUser }) => {
                     <div>
                         username
                         <input
+                            id='username'
                             value={username}
                             onChange={handleUsernameChange}
                         />
@@ -50,12 +51,13 @@ const LoginForm = ({ handleSetUser }) => {
                     <div>
                         password
                         <input
+                            id='password'
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
                         />
                     </div>
-                    <button type="submit">login</button>
+                    <button id='login-button' type="submit">login</button>
                 </form>
             </div>
         </Togglable>

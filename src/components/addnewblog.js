@@ -43,9 +43,9 @@ const AddBlogForm = ({ concatNewBlog }) => {
     return (
         <Togglable blockTitle='New blog' buttonLabel='add' ref={blogFormRef}>
             <form onSubmit={ addBlogHandle }>
-                <p>Enter Title: <input value={newBlog.title} onChange={titleChangeHandle}/></p>
-                <p>Enter Author: <input value={newBlog.author} onChange={authorChangeHandle}/></p>
-                <p>Enter Url: <input value={newBlog.url} onChange={urlChangeHandle}/></p>
+                <p>Enter Title: <input id='addBlogTitle' value={newBlog.title} onChange={titleChangeHandle}/></p>
+                <p>Enter Author: <input id='addBlogAuthor' value={newBlog.author} onChange={authorChangeHandle}/></p>
+                <p>Enter Url: <input id='addBlogUrl' value={newBlog.url} onChange={urlChangeHandle}/></p>
                 <button type='submit'>save data</button>
             </form>
         </Togglable>
