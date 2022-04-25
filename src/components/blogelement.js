@@ -12,7 +12,7 @@ const BlogElement = ({ blog, deleteBlog, likeCurrentBlog, blogLikes }) => {
     }
 
     return (
-        <li style={blogStyle}>
+        <li key={blog.id} style={blogStyle}>
             <Togglable blockTitle={blog.title} buttonLabel='details'>
                 <h2>{blog.title}</h2>
                 <p>{blog.author}</p>

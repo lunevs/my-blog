@@ -1,22 +1,19 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+
+import {createBlog, likeBlog, removeBlog} from '../reducers/blogReducer'
+import { useSelector, useDispatch } from 'react-redux'
+
 import blogService from '../services/blogs'
 import LoginForm from './loginform'
 import BlogElement from './blogelement'
 import AddBlogForm from './addnewblog'
 
 const Blog = () => {
-    const [blogs, setBlogs] = useState([])
-    const [user, setUser] = useState(null)
+    const dispatch = useDispatch()
+    const blogs = useSelector(state => state.blogs)
 
-    useEffect(() => {
-        blogService
-            .getAll()
-            .then(initialBlogs => {
-                setBlogs(initialBlogs)
-                console.log(initialBlogs)
-            })
-    }, [])
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -28,7 +25,7 @@ const Blog = () => {
     }, [])
 
     const concatNewBlog = (newBlog) => {
-        return setBlogs(blogs.concat(newBlog))
+        return dispatch(createBlog(newBlog)) //setBlogs(blogs.concat(newBlog))
     }
 
     const handleSetUser = (user) => {
@@ -40,7 +37,8 @@ const Blog = () => {
         blogService
             .remove(id)
             .then(() => {
-                setBlogs(blogs.filter(el => el.id !== id))
+                dispatch(removeBlog(id))
+                //setBlogs(blogs.filter(el => el.id !== id))
             })
     }
 
@@ -51,7 +49,8 @@ const Blog = () => {
         blogService
             .update(id, newBlog)
             .then(() => {
-                setBlogs(blogs.map(el => (el.id !== id) ? el : newBlog))
+                dispatch(likeBlog(id))
+                //setBlogs(blogs.map(el => (el.id !== id) ? el : newBlog))
             })
     }
 
