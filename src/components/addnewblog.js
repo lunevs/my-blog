@@ -1,10 +1,8 @@
 import React from 'react'
-import blogService from '../services/blogs'
 import { useRef } from 'react'
 import Togglable from './togglable'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
-
 
 const AddBlogForm = () => {
 
@@ -21,11 +19,10 @@ const AddBlogForm = () => {
             likes: 0,
             url: target.url.value
         }
-        blogService
-            .create(newBlogObj)
-            .then(returnedBlog => {
-                dispatch(createBlog(returnedBlog))
-            })
+        target.title.value = ''
+        target.author.value = ''
+        target.url.value = ''
+        dispatch(createBlog(newBlogObj))
     }
 
     //const titleChangeHandle = (event) => (setNewBlog({ ...newBlog, title: event.target.value }))
