@@ -32,7 +32,6 @@ export const initializeUser = () => {
 }
 
 export const loginUser = (content) => {
-    console.log('loginUser', content)
     return async dispatch => {
         const user = await loginService.login(content)
         dispatch(saveUser(user))

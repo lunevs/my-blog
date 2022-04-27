@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux'
 const UserForm = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => {
-        console.log('UserForm state', state)
         return state.user
     })
 

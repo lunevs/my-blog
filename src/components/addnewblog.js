@@ -1,8 +1,10 @@
 import React from 'react'
 import { useRef } from 'react'
-import Togglable from './togglable'
 import { useDispatch } from 'react-redux'
+
 import { createBlog } from '../reducers/blogReducer'
+import Togglable from './togglable'
+
 
 const AddBlogForm = () => {
 
@@ -28,9 +30,9 @@ const AddBlogForm = () => {
     return (
         <Togglable blockTitle='New blog' buttonLabel='add' ref={blogFormRef}>
             <form onSubmit={ addBlogHandle }>
-                <p>Enter Title: <input id='addBlogTitle' name='title' onChange={() => console.log('title')}/></p>
-                <p>Enter Author: <input id='addBlogAuthor' name='author' onChange={() => console.log('author')}/></p>
-                <p>Enter Url: <input id='addBlogUrl' name='url'  onChange={() => console.log('url')}/></p>
+                <p>Enter Title: <input id='addBlogTitle' name='title' /></p>
+                <p>Enter Author: <input id='addBlogAuthor' name='author' /></p>
+                <p>Enter Url: <input id='addBlogUrl' name='url' /></p>
                 <button type='submit'>save data</button>
             </form>
         </Togglable>

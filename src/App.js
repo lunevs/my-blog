@@ -1,12 +1,17 @@
 import React from 'react'
 import { useEffect } from 'react'
-import './App.css'
+import { useDispatch } from 'react-redux'
+
 import Blogs from './components/blogs'
 import VisibilityFilter from './components/visibilityfilter'
+import AddBlogForm from './components/addnewblog'
+import AuthUser from './components/authuser'
+
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/authReducer'
-import { useDispatch } from 'react-redux'
-import AuthUser from './components/authuser'
+
+import './App.css'
+
 
 const App = () => {
     const dispatch = useDispatch()
@@ -20,7 +25,7 @@ const App = () => {
             <h1>Blogs</h1>
             <AuthUser />
             <VisibilityFilter />
-            <AddBlogForm concatNewBlog={() => dispatch(createBlog(newBlog)))} />
+            <AddBlogForm />
             <Blogs />
         </div>
     )
