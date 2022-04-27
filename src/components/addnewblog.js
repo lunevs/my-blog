@@ -25,10 +25,6 @@ const AddBlogForm = () => {
         dispatch(createBlog(newBlogObj))
     }
 
-    //const titleChangeHandle = (event) => (setNewBlog({ ...newBlog, title: event.target.value }))
-    //const authorChangeHandle = (event) => (setNewBlog({ ...newBlog, author: event.target.value }))
-    //const urlChangeHandle = (event) => (setNewBlog({ ...newBlog, url: event.target.value }))
-
     return (
         <Togglable blockTitle='New blog' buttonLabel='add' ref={blogFormRef}>
             <form onSubmit={ addBlogHandle }>
