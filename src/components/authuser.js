@@ -5,13 +5,10 @@ import UserForm from './userform'
 
 const AuthUser = () => {
 
-    const user = useSelector(state => {
-        console.log('AuthUser', state.user)
-        return Object.keys(state.user).length === 0 ? null : state.user
-    })
+    const user = useSelector(state => (Object.keys(state.user).length === 0 ? null : state.user))
 
     return (
-        <div>
+        <div className='authBlock'>
             { user === null ? <LoginForm /> : <UserForm /> }
         </div>
     )

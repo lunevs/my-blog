@@ -14,3 +14,26 @@ img {
   padding: 10px;
   margin-bottom: 10px;
 }
+.blogElement {
+  padding-top: 10px;
+  padding-left: 2px;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 5px;
+  list-style: none;
+
+}
+.mainMenu {
+  width: 250px;
+}
+.mainMenu a {
+  display: block;
+  width: 200px;
+  padding: 5px;
+  border: black 1px solid;
+}
+.authBlock {
+  display: block;
+  width: 250px;
+  padding: 5px;
+}
