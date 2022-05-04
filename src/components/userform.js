@@ -9,7 +9,7 @@ const UserForm = () => {
     })
 
     return (
-        <div>
+        <div className='pageBody'>
             <p>
                 {user.username} logged-in
                 <button onClick={() => dispatch(logoutUser())}>logout</button>

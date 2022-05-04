@@ -1,16 +1,14 @@
 import React from 'react'
 import { useRef } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { createBlog } from '../reducers/blogReducer'
 import Togglable from './togglable'
-
+import {Form, Button, Row, Col} from 'react-bootstrap'
 
 const AddBlogForm = () => {
 
     const dispatch = useDispatch()
-    const user = useSelector(state => (Object.keys(state.user).length === 0 ? null : state.user))
-
     const blogFormRef = useRef()
 
     const addBlogHandle = (event) => {
@@ -31,16 +29,32 @@ const AddBlogForm = () => {
 
     return (
         <div>
-            {user === null ? <div/> :
-                <Togglable blockTitle='New blog' buttonLabel='add' ref={blogFormRef}>
-                    <form onSubmit={addBlogHandle}>
-                        <p>Enter Title: <input id='addBlogTitle' name='title'/></p>
-                        <p>Enter Author: <input id='addBlogAuthor' name='author'/></p>
-                        <p>Enter Url: <input id='addBlogUrl' name='url'/></p>
-                        <button type='submit'>save data</button>
-                    </form>
-                </Togglable>
-            }
+            <Togglable blockTitle={null} buttonLabel='Создать новую запись' ref={blogFormRef}>
+                <Form onSubmit={addBlogHandle}>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3">Заголовок блога:</Form.Label>
+                        <Col sm="9">
+                            <Form.Control type="text" id='addBlogTitle' name='title' />
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3">Автор блога:</Form.Label>
+                        <Col sm="9">
+                            <Form.Control type="text" id='addBlogAuthor' name='author' />
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3">Url блога:</Form.Label>
+                        <Col sm="9">
+                            <Form.Control type="text" id='addBlogUrl' name='url' />
+                        </Col>
+                    </Form.Group>
+
+                    <Button variant="outline-dark" type='submit'>save data</Button>
+                </Form>
+            </Togglable>
         </div>
     )
 }

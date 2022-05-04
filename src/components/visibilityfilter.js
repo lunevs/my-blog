@@ -1,6 +1,7 @@
 import React from 'react'
 import { filterChange } from '../reducers/filterReducer'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { InputGroup, FormControl } from 'react-bootstrap'
 
 const VisibilityFilter = () => {
     const dispatch = useDispatch()
@@ -9,12 +10,18 @@ const VisibilityFilter = () => {
 
     return (
         <div>
-            {user === null ? <div /> :
-                <input
-                    type="text"
-                    name="filter"
-                    onChange={(event) => dispatch(filterChange(event.target.value))}
-                />
+            {user === null
+                ? <div />
+                : <InputGroup className="mb-3">
+                    <InputGroup.Text id="basic-addon1">Фильтр:</InputGroup.Text>
+                    <FormControl
+                        placeholder="Username"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                        name="filter"
+                        onChange={(event) => dispatch(filterChange(event.target.value))}
+                    />
+                </InputGroup>
             }
         </div>
     )

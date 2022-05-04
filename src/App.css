@@ -23,17 +23,10 @@ img {
   list-style: none;
 
 }
-.mainMenu {
-  width: 250px;
+.nav-link a {
+  text-decoration: none;
+  color: #fff;
 }
-.mainMenu a {
-  display: block;
-  width: 200px;
-  padding: 5px;
-  border: black 1px solid;
-}
-.authBlock {
-  display: block;
-  width: 250px;
-  padding: 5px;
+.pageBody {
+  padding: 15px;
 }

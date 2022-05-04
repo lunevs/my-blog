@@ -17,17 +17,18 @@ const Blog = () => {
     })
 
     return (
-        <div>
-            {user === null ? <div/> :
+        <div className='pageBody'>
+            {user === null ? <div /> :
                 <div>
                     <AddBlogForm />
+                    <br />
                     <VisibilityFilter />
                     <Table striped>
                         <thead>
                             <tr>
-                                <td>Blog title</td>
-                                <td>Blog author</td>
-                                <td>Blog likes</td>
+                                <th>Blog title</th>
+                                <th>Blog author</th>
+                                <th>Blog likes</th>
                             </tr>
                         </thead>
                         <tbody>

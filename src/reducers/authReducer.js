@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import { statusChange } from './statusReducer'
 
 const authReducer = createSlice({
     name: 'user',
@@ -15,11 +16,15 @@ const authReducer = createSlice({
             window.localStorage.setItem('loggedBlogappUser', JSON.stringify(action.payload))
             blogService.setToken(action.payload.token)
             return action.payload
+        },
+        updateUser(state, action) {
+            console.log('update user', action.payload)
+            return action.payload
         }
     }
 })
 
-export const { saveUser, logoutUser } = authReducer.actions
+export const { saveUser, logoutUser, updateUser } = authReducer.actions
 
 export const initializeUser = () => {
     return async dispatch => {
@@ -33,8 +38,16 @@ export const initializeUser = () => {
 
 export const loginUser = (content) => {
     return async dispatch => {
-        const user = await loginService.login(content)
-        dispatch(saveUser(user))
+        try {
+            const user = await loginService.login(content)
+            dispatch(saveUser(user))
+            dispatch(statusChange({message: `Добро пожаловать ${user.username}`, type: 'success'}))
+            setTimeout(() => dispatch(statusChange({})), 3000)
+        } catch(e) {
+            console.log('error', e)
+            dispatch(statusChange({message: 'Ошибка авторизации', type: 'danger'}))
+            setTimeout(() => dispatch(statusChange({})), 3000)
+        }
     }
 }
 

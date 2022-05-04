@@ -22,7 +22,7 @@ const OneBlog = () => {
     }
 
     return (
-        <div>
+        <div className='pageBody'>
             <h2>{blog.title}</h2>
             <p>{blog.author}</p>
             <p>{blog.likes} <button onClick={likeCurrentBlog}>like</button></p>
