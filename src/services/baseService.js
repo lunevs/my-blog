@@ -13,6 +13,14 @@ const getAll = (baseUrl, token) => {
     return request.then(response => response.data)
 }
 
+const getOne = (baseUrl, id, token) => {
+    const config = {
+        headers: { Authorization: token }
+    }
+    const request = axios.get(`${baseUrl}/${id}`, config)
+    return request.then(response => response.data)
+}
+
 const create = async (baseUrl, newObject, token) => {
     const config = {
         headers: { Authorization: token }
@@ -38,6 +46,6 @@ const remove = (baseUrl, id, token) => {
     return request.then(response => response.data)
 }
 
-export default { register, getAll, remove, update, create }
+export default { register, getAll, getOne, remove, update, create }
 
 

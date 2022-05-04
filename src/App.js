@@ -16,6 +16,7 @@ import {initializeUser, logoutUser} from './reducers/authReducer'
 import './App.css'
 import OneBlog from "./components/oneblog";
 import UserInfo from "./components/userinfo";
+import UserEdit from "./components/useredit";
 
 
 const App = () => {
@@ -70,7 +71,7 @@ const App = () => {
                 <Route path='/blogs' element={user ? <Blogs /> : <Navigate replace to='/login' />} />
                 <Route path='/blog/:id' element={user ? <OneBlog /> : <Navigate replace to='/login' />} />
                 <Route path='/user' element={user ? <UserInfo /> : <Navigate replace to='/login' />} />
-                <Route path='/user/:id' element={user ? <UserInfo /> : <Navigate replace to='/login' />} />
+                <Route path='/user/:id' element={user ? <UserEdit /> : <Navigate replace to='/login' />} />
                 <Route path='/users' element={user ? <UsersList /> : <Navigate replace to='/login' />} />
                 <Route path='/reg' element={<RegPage />} />
                 <Route path='/login' element={<AuthUser />} />
