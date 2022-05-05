@@ -14,15 +14,22 @@ const UsersList = () => {
         userService
             .getAll()
             .then(response => {
-                setUsersList(response)
+
+                if (currentUser.status && currentUser.status === 'admin') {
+                    console.log('you are Admin', currentUser)
+                    setUsersList(response)
+                } else {
+                    console.log('filtered list before:', response)
+                    const filteredUsers = response.filter(el => el.username === currentUser.username)
+                    console.log('filtered list after:', filteredUsers)
+                    setUsersList(filteredUsers)
+                }
+
+
                 return response
+
             })
 
-        if (currentUser.status && currentUser.status === 'lieder') {
-            console.log('you are Admin', currentUser)
-        } else {
-            console.log('you are NOT admin', currentUser)
-        }
     }, [])
 
     return (
@@ -30,10 +37,10 @@ const UsersList = () => {
             <Table striped bordered hover>
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
+                    <th>Никнейм</th>
+                    <th>ФИО</th>
+                    <th>Статус</th>
+                    <th>Телефон</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,10 +48,10 @@ const UsersList = () => {
                         usersList.map(user =>
                             (
                                 <tr key={user.id}>
-                                    <td>1</td>
                                     <td><Link to={`/user/${user.id}`}>{user.username}</Link></td>
-                                    <td>{user.name}</td>
-                                    <td>{user.surname}</td>
+                                    <td>{`${user.surname} ${user.name}`}</td>
+                                    <td>{user.status}</td>
+                                    <td>{user.phone}</td>
                                 </tr>
                             ))
                     }

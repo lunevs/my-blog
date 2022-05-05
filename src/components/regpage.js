@@ -26,8 +26,6 @@ const RegPage = () => {
                 sex: event.target.sex.value,
                 churchStatus: event.target.churchStatus.value
             }
-            console.log(newUser)
-            //document.getElementById('regForm').reset()
 
             try {
                 const user = await userService.register(newUser)
@@ -105,7 +103,7 @@ const RegPage = () => {
                     <Col sm="9">
                         <Form.Check required label="ищущий (гость)" name="churchStatus" type='radio' id='guestStatus' value='guest' />
                         <Form.Check required label="прихожанин (регулярно бываю)" name="churchStatus" type='radio' id='regularStatus' value='regular' />
-                        <Form.Check required label="член ценки (принял крещение либо готовлюсь)" name="churchStatus" type='radio' id='memberStatus' value='member' />
+                        <Form.Check required label="член Церкви (принял крещение либо готовлюсь)" name="churchStatus" type='radio' id='memberStatus' value='member' />
                         <Form.Check required label="служитель (принял крещение и активно тружусь)" name="churchStatus" type='radio' id='liederStatus' value='lieder' />
                     </Col>
                 </Form.Group>

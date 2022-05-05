@@ -15,6 +15,7 @@ const authReducer = createSlice({
         saveUser(state, action) {
             window.localStorage.setItem('loggedBlogappUser', JSON.stringify(action.payload))
             blogService.setToken(action.payload.token)
+            console.log('login user', action.payload)
             return action.payload
         },
         updateUser(state, action) {
