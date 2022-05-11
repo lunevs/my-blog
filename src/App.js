@@ -17,6 +17,7 @@ import './App.css'
 import OneBlog from "./components/oneblog";
 import UserInfo from "./components/userinfo";
 import UserEdit from "./components/useredit";
+import Events from "./components/events";
 
 
 const App = () => {
@@ -40,10 +41,19 @@ const App = () => {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href='#' as='span'>
-                                <Link to="/blogs">Гостевая книга</Link>
+                                <Link to="/blogs">Новости</Link>
                             </Nav.Link>
                             <Nav.Link href="#" as="span">
                                 <Link to="/users">Пользователи</Link>
+                            </Nav.Link>
+                            <Nav.Link href="#" as="span">
+                                <Link to="/events">Мероприятия</Link>
+                            </Nav.Link>
+                            <Nav.Link href="#" as="span">
+                                <Link to="/questions">Опросы</Link>
+                            </Nav.Link>
+                            <Nav.Link href="#" as="span">
+                                <Link to="/settings">Настройки</Link>
                             </Nav.Link>
                         </Nav>
                         <Nav>
@@ -75,6 +85,8 @@ const App = () => {
                 <Route path='/users' element={user ? <UsersList /> : <Navigate replace to='/login' />} />
                 <Route path='/reg' element={<RegPage />} />
                 <Route path='/login' element={<AuthUser />} />
+                <Route path='/events' element={<Events />} />
+                <Route path='/settings' element={<div />} />
             </Routes>
 
         </Router>
