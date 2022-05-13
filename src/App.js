@@ -20,7 +20,9 @@ import UserEdit from "./components/useredit";
 import Events from "./components/events";
 import AddEvent from "./components/addevent";
 import RegEvent from "./components/regevent";
-import OneEvent from "./components/oneevent";
+import EventItem from "./components/eventitem";
+import Locations from "./components/locations";
+import Rooms from "./components/rooms";
 
 
 const App = () => {
@@ -57,13 +59,13 @@ const App = () => {
                             </Nav.Link>
                             <NavDropdown title="Настройки">
                                 <NavDropdown.Item href="#" as="span">
-                                    <Link to="/objects">Объекты</Link>
+                                    <Link to="/locations">Объекты</Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item href="#" as="span">
                                     <Link to="/rooms">Комнаты</Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item href="#" as="span">
-                                    <Link to="/beds">Кровати</Link>
+                                    <Link to="/discounts">Скидки</Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#" as="span">
@@ -95,16 +97,29 @@ const App = () => {
                 <Route path='/' element={<Homepage />} />
                 <Route path='/blogs' element={user ? <Blogs /> : <Navigate replace to='/login' />} />
                 <Route path='/blog/:id' element={user ? <OneBlog /> : <Navigate replace to='/login' />} />
+
                 <Route path='/user' element={user ? <UserInfo /> : <Navigate replace to='/login' />} />
                 <Route path='/user/:id' element={user ? <UserEdit /> : <Navigate replace to='/login' />} />
                 <Route path='/users' element={user ? <UsersList /> : <Navigate replace to='/login' />} />
+
                 <Route path='/reg' element={<RegPage />} />
                 <Route path='/login' element={<AuthUser />} />
-                <Route path='/events' element={<Events />} />
-                <Route path='/event/:id' element={<OneEvent />} />
+
                 <Route path='/settings' element={<div />} />
+
+                <Route path='/events' element={<Events />} />
+                <Route path='/event/:id' element={<EventItem />} />
                 <Route path='/addevent' element={<AddEvent />} />
                 <Route path='/regevent/:id' element={<RegEvent />} />
+
+                <Route path='/locations' element={<Locations />} />
+                <Route path='/location/:id' element={<div />} />
+
+                <Route path='/rooms' element={<Rooms />} />
+                <Route path='/room/:id' element={<div />} />
+
+                <Route path='/applications' element={<div />} />
+                <Route path='/application/:id' element={<div />} />
             </Routes>
 
         </Router>

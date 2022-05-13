@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from 'react'
-import { useSelector } from "react-redux";
 import { Nav, Table } from "react-bootstrap";
 import eventService from '../services/events'
+import { Link } from "react-router-dom";
 
 
 const Events = () => {
@@ -20,11 +20,7 @@ const Events = () => {
     return (
         <div className='pageBody'>
 
-            <Nav variant="pills" activeKey="1">
-                <Nav.Item>
-                    <Nav.Link href='/addevent' eventKey="1">Добавить мероприятие</Nav.Link>
-                </Nav.Item>
-            </Nav>
+            <Link to='/addevent'>Добавить мероприятие</Link>
 
             <Table striped>
                 <thead>
@@ -36,12 +32,12 @@ const Events = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {eventsList.map((event, idx) =>
+                    {eventsList.map((e, idx) =>
                         <tr key={idx}>
-                            <td><a href={`/event/${event.id}`}>{event.title}</a></td>
-                            <td>{event.fromDate}</td>
-                            <td>{event.isClosed ? 'закрыта' : 'открыта'}</td>
-                            <td>{event.isClosed ? <div /> : <a href={`/regevent/${event.id}`}>зарегистрироваться</a>}</td>
+                            <td><Link to={`/event/${e.id}`}>{e.title}</Link></td>
+                            <td>{e.startDate}</td>
+                            <td>{e.isRegistrationOpen ? 'открыта' : 'закрыта'}</td>
+                            <td>{e.isRegistrationOpen ? <Link to={`/regevent/${e.id}`}>зарегистрироваться</Link> : <div />}</td>
                         </tr>
                     )}
                 </tbody>

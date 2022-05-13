@@ -1,27 +1,38 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from 'react'
-import { useSelector } from "react-redux";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import locationService from "../services/locations";
+import eventService from "../services/events";
 
 const AddEvent = () => {
 
-    const [regStatus, setRegStatus] = useState(true)
-    const currentUser = useSelector(state => state.user)
+    const [locationsList, setLocationsList] = useState([])
 
-    const addEventHandle = (event) => {
+    useEffect(() => {
+        locationService
+            .getAll()
+            .then((response) => {
+                console.log('get Locations AddEvent:', response)
+                setLocationsList(response)
+            })
+    }, [])
+
+    const addEventHandle = async (event) => {
 
         event.preventDefault()
 
         const newEvent = {
+            status: 'new',
             title: event.target.title.value,
-            fromDate: event.target.fromDate.value,
-            toDate: event.target.toDate.value,
-            description: event.target.description.value,
-            isClosed: event.target.status.value,
-            author: event.target.author.value,
-            images: []
+            startDate: event.target.startDate.value,
+            endDate: event.target.endDate.value,
+            isRegistrationOpen: event.target.isRegistrationOpen.checked,
+            basePrice: event.target.basePrice.value,
+            locationId: event.target.locationId.value
         }
         console.log(newEvent)
+        const response = await eventService.create(newEvent)
+        console.log('after addEventHandle', response)
     }
 
     return (
@@ -38,21 +49,14 @@ const AddEvent = () => {
                 <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm="3">Дата начала:</Form.Label>
                     <Col sm="9">
-                        <Form.Control type="date" id='addEventStart' name='fromDate' />
+                        <Form.Control type="date" id='addEventStart' name='startDate' />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm="3">Дата завершения:</Form.Label>
                     <Col sm="9">
-                        <Form.Control type="date" id='addEventEnd' name='toDate' />
-                    </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">Описание:</Form.Label>
-                    <Col sm="9">
-                        <Form.Control as="textarea" id='addEventDescription' name='description' rows={3} />
+                        <Form.Control type="date" id='addEventEnd' name='endDate' />
                     </Col>
                 </Form.Group>
 
@@ -60,20 +64,32 @@ const AddEvent = () => {
                     <Form.Label column sm="3">Статус регистрации:</Form.Label>
                     <Col sm="9">
                         <Form.Check
-                            type="switch"
-                            id="addEventStatus"
-                            label={regStatus ? 'открыта' : 'закрыта'}
-                            name='status'
-                            checked={regStatus}
-                            onChange={() => setRegStatus(!regStatus)}
+                            type="checkbox"
+                            name="isRegistrationOpen"
+                            label='открыта'
+                            onChange={(e) => console.log(e.currentTarget.checked)}
                         />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">Создатель мероприятия:</Form.Label>
+                    <Form.Label column sm="3">Базовая стоимость в день:</Form.Label>
                     <Col sm="9">
-                        <Form.Control readOnly type="text" id='addEventAuthor' name='author' defaultValue={currentUser.username} />
+                        <Form.Control type="number" id='addEventPrice' name='basePrice' />
+                    </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">Площадка мероприятия:</Form.Label>
+                    <Col sm="9">
+                        <Form.Select name='locationId'>
+                            <option value='undefined' key='000'>...</option>
+                            {
+                                locationsList.map(el => (
+                                    <option value={el.id} key={el.id}>{el.name}</option>
+                                ))
+                            }
+                        </Form.Select>
                     </Col>
                 </Form.Group>
 
