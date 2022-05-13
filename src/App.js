@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
-import { Navbar, Nav, Alert, Container, Button } from 'react-bootstrap'
+import { Navbar, Nav, Alert, Container, Button, NavDropdown } from 'react-bootstrap'
 
 import Blogs from './components/blogs'
 import AuthUser from './components/authuser'
@@ -18,6 +18,9 @@ import OneBlog from "./components/oneblog";
 import UserInfo from "./components/userinfo";
 import UserEdit from "./components/useredit";
 import Events from "./components/events";
+import AddEvent from "./components/addevent";
+import RegEvent from "./components/regevent";
+import OneEvent from "./components/oneevent";
 
 
 const App = () => {
@@ -40,7 +43,7 @@ const App = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href='#' as='span'>
+                            <Nav.Link href='/blogs' as='span'>
                                 <Link to="/blogs">Новости</Link>
                             </Nav.Link>
                             <Nav.Link href="#" as="span">
@@ -52,9 +55,21 @@ const App = () => {
                             <Nav.Link href="#" as="span">
                                 <Link to="/questions">Опросы</Link>
                             </Nav.Link>
-                            <Nav.Link href="#" as="span">
-                                <Link to="/settings">Настройки</Link>
-                            </Nav.Link>
+                            <NavDropdown title="Настройки">
+                                <NavDropdown.Item href="#" as="span">
+                                    <Link to="/objects">Объекты</Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="#" as="span">
+                                    <Link to="/rooms">Комнаты</Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="#" as="span">
+                                    <Link to="/beds">Кровати</Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="#" as="span">
+                                    <Link to="/settings">Пользовательские</Link>
+                                </NavDropdown.Item>
+                            </NavDropdown>
                         </Nav>
                         <Nav>
                             <Nav.Link href="#" as="span">
@@ -86,7 +101,10 @@ const App = () => {
                 <Route path='/reg' element={<RegPage />} />
                 <Route path='/login' element={<AuthUser />} />
                 <Route path='/events' element={<Events />} />
+                <Route path='/event/:id' element={<OneEvent />} />
                 <Route path='/settings' element={<div />} />
+                <Route path='/addevent' element={<AddEvent />} />
+                <Route path='/regevent/:id' element={<RegEvent />} />
             </Routes>
 
         </Router>
