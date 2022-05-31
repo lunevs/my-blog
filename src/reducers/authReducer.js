@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import applicationService from "../services/applications";
 import { statusChange } from './statusReducer'
 
 const authReducer = createSlice({
@@ -10,11 +11,13 @@ const authReducer = createSlice({
         logoutUser(state, action) {
             window.localStorage.removeItem('loggedBlogappUser')
             blogService.setToken(null)
+            applicationService.setToken(null)
             return {}
         },
         saveUser(state, action) {
             window.localStorage.setItem('loggedBlogappUser', JSON.stringify(action.payload))
             blogService.setToken(action.payload.token)
+            applicationService.setToken(action.payload.token)
             console.log('login user', action.payload)
             return action.payload
         },

@@ -7,6 +7,10 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
+const getToken = () => {
+    return token
+}
+
 const getAll = () => baseService.getAll(applicationsUrl, token)
 
 const getOne = (id) => baseService.getOne(applicationsUrl, id, token)
@@ -17,5 +21,5 @@ const update = (id, newObject) => baseService.update(applicationsUrl, id, newObj
 
 const remove = (id) => baseService.remove(applicationsUrl, id, token)
 
-export default { getAll, getOne, create, update, remove, setToken }
+export default { getAll, getOne, create, update, remove, setToken, getToken }
 

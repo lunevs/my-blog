@@ -1,24 +1,12 @@
 import React from "react";
-import { useEffect, useState } from 'react'
-import eventService from "../services/events";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const EventItem = () => {
 
-    const [currentEvent, setCurrentEvent] = useState({})
-    const [location, setLocation] = useState('')
-
     const id = useParams().id
-    useEffect(() => {
-        eventService
-            .getOne(id)
-            .then((response) => {
-                console.log('get event id:', id, response)
-                setCurrentEvent(response)
-                setLocation(response.location)
-            })
-    }, [])
-
+    const currentEvent = useSelector(state => state.events.find(el => el.id === id))
+    const currentLocation = currentEvent.location
 
     return (
         <div className='pageBody'>
@@ -27,7 +15,7 @@ const EventItem = () => {
             <p>{currentEvent.endDate}</p>
             <p>регистрация {currentEvent.isRegistrationOpen ? 'открыта' : 'закрыта'}</p>
             <p>стоимость одного дня {currentEvent.basePrice}</p>
-            <p>место проведения {location.name}</p>
+            <p>место проведения {currentLocation.name}</p>
         </div>
     )
 }

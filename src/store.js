@@ -4,6 +4,7 @@ import blogReducer from './reducers/blogReducer'
 import filterReducer from './reducers/filterReducer'
 import authReducer from './reducers/authReducer'
 import statusReducer from './reducers/statusReducer'
+import eventReducer from './reducers/eventReducer'
 
 const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
         filter: filterReducer,
         user: authReducer,
         status: statusReducer,
+        events: eventReducer,
     }
 })
 

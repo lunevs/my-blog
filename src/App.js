@@ -12,6 +12,7 @@ import UsersList from './components/userslist'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import {initializeUser, logoutUser} from './reducers/authReducer'
+import { initializeEvents } from './reducers/eventReducer'
 
 import './App.css'
 import OneBlog from "./components/oneblog";
@@ -23,6 +24,7 @@ import RegEvent from "./components/regevent";
 import EventItem from "./components/eventitem";
 import Locations from "./components/locations";
 import Rooms from "./components/rooms";
+import Discount from "./components/discounts";
 
 
 const App = () => {
@@ -31,6 +33,7 @@ const App = () => {
     useEffect(() => {
         dispatch(initializeBlogs())
         dispatch(initializeUser())
+        dispatch(initializeEvents())
     }, [dispatch])
 
     const user = useSelector(state => (Object.keys(state.user).length === 0 ? null : state.user))
@@ -65,7 +68,7 @@ const App = () => {
                                     <Link to="/rooms">Комнаты</Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item href="#" as="span">
-                                    <Link to="/discounts">Скидки</Link>
+                                    <Link to="/discounts">Тарифы</Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#" as="span">
@@ -120,6 +123,9 @@ const App = () => {
 
                 <Route path='/applications' element={<div />} />
                 <Route path='/application/:id' element={<div />} />
+
+                <Route path='/discounts' element={<Discount />} />
+                <Route path='/discount/:id' element={<Discount />} />
             </Routes>
 
         </Router>
