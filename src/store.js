@@ -5,6 +5,8 @@ import filterReducer from './reducers/filterReducer'
 import authReducer from './reducers/authReducer'
 import statusReducer from './reducers/statusReducer'
 import eventReducer from './reducers/eventReducer'
+import locationsReducer from "./reducers/locationsReducer";
+import roomReducer from "./reducers/roomReducer";
 
 const store = configureStore({
     reducer: {
@@ -13,6 +15,8 @@ const store = configureStore({
         user: authReducer,
         status: statusReducer,
         events: eventReducer,
+        locations: locationsReducer,
+        rooms: roomReducer
     }
 })
 

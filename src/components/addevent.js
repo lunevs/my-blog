@@ -1,26 +1,15 @@
-import React, {useEffect} from "react";
-import { useState } from 'react'
+import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import locationService from "../services/locations";
-import eventService from "../services/events";
+import { useDispatch, useSelector } from "react-redux";
+import { createEvent } from "../reducers/eventReducer";
 
 const AddEvent = () => {
 
-    const [locationsList, setLocationsList] = useState([])
-
-    useEffect(() => {
-        locationService
-            .getAll()
-            .then((response) => {
-                console.log('get Locations AddEvent:', response)
-                setLocationsList(response)
-            })
-    }, [])
+    const locationsList = useSelector(state => state.locations)
+    const dispatch = useDispatch()
 
     const addEventHandle = async (event) => {
-
         event.preventDefault()
-
         const newEvent = {
             status: 'new',
             title: event.target.title.value,
@@ -30,9 +19,7 @@ const AddEvent = () => {
             basePrice: event.target.basePrice.value,
             locationId: event.target.locationId.value
         }
-        console.log(newEvent)
-        const response = await eventService.create(newEvent)
-        console.log('after addEventHandle', response)
+        dispatch(createEvent(newEvent))
     }
 
     return (

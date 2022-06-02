@@ -1,32 +1,19 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import roomService from "../services/rooms";
-import locationService from "../services/locations";
+import { useDispatch, useSelector } from "react-redux";
+import { createRoom } from "../reducers/roomReducer";
+import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
+import RoomElement from "./roomElement";
 
 const Rooms = () => {
 
-    const [roomsList, setRoomsList] = useState([])
-    const [locationsList, setLocationsList] = useState([])
+    const roomsList = useSelector(state => state.rooms)
+    const locationsList = useSelector(state => state.locations)
 
-    useEffect(() => {
-        roomService
-            .getAll()
-            .then((response) => {
-                console.log('get Rooms:', response)
-                setRoomsList(response)
-            })
+    const dispatch = useDispatch()
 
-        locationService
-            .getAll()
-            .then((response) => {
-                console.log('get Locations:', response)
-                setLocationsList(response)
-            })
-
-    }, [])
-
-    const addRoomHandler = async (event) => {
+    const addRoomHandler = (event) => {
         event.preventDefault()
+        const form = event.target
         const newRoom = {
             roomName: event.target.roomName.value,
             roomCode: event.target.roomCode.value,
@@ -35,40 +22,71 @@ const Rooms = () => {
             locationId: event.target.locationId.value
 
         }
-        console.log('addRoomHandler', newRoom)
-        const response = await roomService.create(newRoom)
-        console.log('after addRoomHandler', response)
-
-        setRoomsList(roomsList.concat(response))
-
-        event.target.roomName.value = ''
-        event.target.roomCode.value = ''
-        event.target.availableBed.value = ''
-        event.target.isMan.checked = false
-        event.target.locationId.selected = null
+        dispatch(createRoom(newRoom))
+        form.reset()
     }
 
     return (
-        <div>
+        <div className='pageBody'>
+            <Card body  style={{ height: '130px' }}>
+                <Form onSubmit={addRoomHandler}>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formLocationName">
+                            <Form.Control placeholder="Название" name='roomName' />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formLocationDescription">
+                            <Form.Control placeholder="Код комнаты" name='roomCode' />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formLocationName">
+                            <Form.Check type="checkbox" label='мужская' name='isMan' />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formLocationDescription">
+                            <Form.Control type='number' placeholder="Количество кроватей" name='availableBed' />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formLocationDescription">
+                            <Form.Select defaultValue="Локация..." name='locationId'>
+                                <option>Локация...</option>
+                                {
+                                    locationsList.map(el => (
+                                        <option value={el.id} key={el.id}>{el.name}</option>
+                                    ))
+                                }
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formGridZip">
+                            <Button variant="primary" type="submit">
+                                Добавить
+                            </Button>
+                        </Form.Group>
+                    </Row>
+                </Form>
+            </Card>
+
+            <Table striped>
+                <thead>
+                <tr>
+                    <th>Код комнаты</th>
+                    <th>Описание</th>
+                    <th>Кроватей</th>
+                    <th>Пол</th>
+                    <th>Локация</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {roomsList.map(el => (
+                        <RoomElement key={el.id} room={el} />
+                    ))}
+                </tbody>
+            </Table>
+
             <ul>
-                {roomsList.map(el => (
-                    <li key={el.id}>{el.roomName}</li>
-                ))}
             </ul>
-            <form onSubmit={addRoomHandler} id='addRoomForm'>
-                <input type='text' name='roomName' /><br />
-                <input type='text' name='roomCode' /><br />
-                <input type='text' name='availableBed' /><br />
-                <input type='checkbox' name='isMan' /><br />
-                <select name='locationId'>
-                    {
-                        locationsList.map(el => (
-                            <option value={el.id} key={el.id}>{el.name}</option>
-                        ))
-                    }
-                </select>
-                <button type='submit'>add</button>
-            </form>
         </div>
     )
 }

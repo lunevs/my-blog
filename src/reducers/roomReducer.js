@@ -31,14 +31,15 @@ export const initializeRooms = () => {
     }
 }
 
-export const createRooms = (content) => {
+export const createRoom = (content) => {
     return async dispatch => {
         const newRoom = await roomService.create(content)
+        console.log('room added:', newRoom)
         dispatch(appendRoom(newRoom))
     }
 }
 
-export const deleteLocation = (id) => {
+export const deleteRoom = (id) => {
     return async dispatch => {
         await roomService.remove(id)
         dispatch(popRoom(id))
