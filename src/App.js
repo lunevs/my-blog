@@ -15,6 +15,7 @@ import { initializeUser, logoutUser } from './reducers/authReducer'
 import { initializeEvents } from './reducers/eventReducer'
 import { initializeLocations } from "./reducers/locationsReducer";
 import { initializeRooms } from "./reducers/roomReducer";
+import { initializeDiscounts } from "./reducers/discountReducer";
 
 import './App.css'
 import OneBlog from "./components/oneblog";
@@ -27,6 +28,7 @@ import EventItem from "./components/eventitem";
 import Locations from "./components/locations";
 import Rooms from "./components/rooms";
 import Discount from "./components/discounts";
+import LocationEdit from "./components/locationEdit";
 
 
 const App = () => {
@@ -38,6 +40,7 @@ const App = () => {
         dispatch(initializeEvents())
         dispatch(initializeLocations())
         dispatch(initializeRooms())
+        dispatch(initializeDiscounts())
     }, [dispatch])
 
     const user = useSelector(state => (Object.keys(state.user).length === 0 ? null : state.user))
@@ -120,7 +123,7 @@ const App = () => {
                 <Route path='/regevent/:id' element={<RegEvent />} />
 
                 <Route path='/locations' element={<Locations />} />
-                <Route path='/location/:id' element={<div />} />
+                <Route path='/location/:id' element={<LocationEdit />} />
 
                 <Route path='/rooms' element={<Rooms />} />
                 <Route path='/room/:id' element={<div />} />

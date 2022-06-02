@@ -60,7 +60,7 @@ const Rooms = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridZip">
-                            <Button variant="primary" type="submit">
+                            <Button variant="outline-primary" type="submit">
                                 Добавить
                             </Button>
                         </Form.Group>

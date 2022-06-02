@@ -16,13 +16,14 @@ const locationsReducer = createSlice({
         setLocation(state, action) {
             return action.payload
         },
-        updateLocation(state, action) {
-            return action.payload
+        changeLocation(state, action) {
+            const updatedLocation = action.payload
+            return state.map(el => (el.id !== updatedLocation.id) ? el : updatedLocation)
         }
     }
 })
 
-export const { popLocation, appendLocation, setLocation, updateLocation } = locationsReducer.actions
+export const { popLocation, appendLocation, setLocation, changeLocation } = locationsReducer.actions
 
 export const initializeLocations = () => {
     return async dispatch => {
@@ -42,6 +43,13 @@ export const deleteLocation = (id) => {
     return async dispatch => {
         await locationService.remove(id)
         dispatch(popLocation(id))
+    }
+}
+
+export const updateLocation = ({id, newLocation}) => {
+    return async dispatch => {
+        await locationService.update(id, newLocation)
+        dispatch(changeLocation({...newLocation, id}))
     }
 }
 

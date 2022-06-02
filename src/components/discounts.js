@@ -1,45 +1,74 @@
-import React, {useEffect, useState} from "react";
-import discountService from '../services/discounts'
+import React, { useState} from "react";
+import DiscountElement from "./discountElement";
+import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
+import { createDiscount } from "../reducers/discountReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const Discount = () => {
 
-    const [discountsList, setDiscountsList] = useState([])
+    const dispatch = useDispatch()
+    const discountsList = useSelector(state => state.discounts)
 
-    useEffect(() => {
-        discountService
-            .getAll()
-            .then(response => {
-                console.log(response)
-                setDiscountsList(response)
-            })
-    }, [])
+    const [coefficient, setCoefficient] = useState(100)
 
     const addDiscountHandler = (event) => {
         event.preventDefault()
-        console.log(event.target.discountName.value, event.target.discountCoefficient.value)
+        const form = event.target
         const newDiscount = {
             name: event.target.discountName.value,
-            coefficient: event.target.discountCoefficient.value,
-
+            coefficient: event.target.discountCoefficient.value / 100,
         }
-        discountService
-            .create(newDiscount)
-            .then(response => {
-                console.log(response)
-                setDiscountsList(discountsList.concat(response))
-            })
+        dispatch(createDiscount(newDiscount))
+        form.reset()
+    }
+
+    const changeCoefficientHandler = (event) => {
+        event.preventDefault()
+        setCoefficient(event.currentTarget.value)
     }
 
     return (
-        <div>
-            {discountsList.map(el => (
-                <p key={el.id}>{el.name} = {el.coefficient}</p>
-            ))}
-            <form onSubmit={addDiscountHandler} id='addDiscountForm'>
-                <input type='text' name='discountName' /><br />
-                <input type='text' name='discountCoefficient' /><br />
-                <button type='submit'>add</button>
-            </form>
+        <div className='pageBody'>
+            <Card body  style={{ height: '90px' }}>
+                <Form onSubmit={addDiscountHandler}>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formLocationName">
+                            <Form.Control placeholder="Название" name='discountName' />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formLocationDescription">
+                            <Form.Label style={{ margin: '0' }}>Оплата по тарифу: {coefficient}%</Form.Label>
+                            <Form.Range
+                                value={coefficient}
+                                onChange={changeCoefficientHandler}
+                                name='discountCoefficient'
+                            />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formGridZip">
+                            <Button variant="outline-primary" type="submit">
+                                Добавить
+                            </Button>
+                        </Form.Group>
+                    </Row>
+                </Form>
+            </Card>
+
+            <Table striped>
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Оплата по тарифу</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {discountsList.map(el => (
+                        <DiscountElement key={el.id} discount={el} />
+                    ))}
+                </tbody>
+            </Table>
+
         </div>
     )
 }

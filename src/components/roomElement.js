@@ -11,10 +11,6 @@ const RoomElement = ({ room }) => {
     const dispatch = useDispatch()
     const location = room.location
 
-    const delElementHandler = (id) => {
-        dispatch(deleteRoom(id))
-    }
-
     return (
         <tr key={room.id}>
             <td>{room.roomCode}</td>
@@ -23,9 +19,19 @@ const RoomElement = ({ room }) => {
             </td>
             <td>{room.availableBed}</td>
             <td>{room.isMan ? 'М' : 'Ж'}</td>
-            <td>{room.location === null ? 'null' : location.name}</td>
             <td>
-                <Button onClick={() => delElementHandler(room.id)} variant="outline-danger" size="sm">
+                {
+                    room.location === null
+                        ? 'null'
+                        : <Link to={`/location/${location.id}`}>{location.name}</Link>
+                }
+            </td>
+            <td>
+                <Button
+                    onClick={() => dispatch(deleteRoom(room.id))}
+                    variant="outline-danger"
+                    size="sm"
+                >
                     удалить
                 </Button>
             </td>

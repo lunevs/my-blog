@@ -7,6 +7,7 @@ import statusReducer from './reducers/statusReducer'
 import eventReducer from './reducers/eventReducer'
 import locationsReducer from "./reducers/locationsReducer";
 import roomReducer from "./reducers/roomReducer";
+import discountReducer from "./reducers/discountReducer"
 
 const store = configureStore({
     reducer: {
@@ -16,7 +17,8 @@ const store = configureStore({
         status: statusReducer,
         events: eventReducer,
         locations: locationsReducer,
-        rooms: roomReducer
+        rooms: roomReducer,
+        discounts: discountReducer
     }
 })
 
