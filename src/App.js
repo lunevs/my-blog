@@ -29,6 +29,7 @@ import Locations from "./components/locations";
 import Rooms from "./components/rooms";
 import Discount from "./components/discounts";
 import LocationEdit from "./components/locationEdit";
+import RoomEdit from "./components/roomEdit";
 
 
 const App = () => {
@@ -126,7 +127,7 @@ const App = () => {
                 <Route path='/location/:id' element={<LocationEdit />} />
 
                 <Route path='/rooms' element={<Rooms />} />
-                <Route path='/room/:id' element={<div />} />
+                <Route path='/room/:id' element={<RoomEdit />} />
 
                 <Route path='/applications' element={<div />} />
                 <Route path='/application/:id' element={<div />} />

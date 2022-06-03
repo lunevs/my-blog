@@ -16,13 +16,14 @@ const roomsReducer = createSlice({
         setRoom(state, action) {
             return action.payload
         },
-        updateRoom(state, action) {
-            return action.payload
+        changeRoom(state, action) {
+            const updatedRoom = action.payload
+            return state.map(el => (el.id !== updatedRoom.id) ? el : updatedRoom)
         }
     }
 })
 
-export const { popRoom, appendRoom, setRoom, updateRoom } = roomsReducer.actions
+export const { popRoom, appendRoom, setRoom, changeRoom } = roomsReducer.actions
 
 export const initializeRooms = () => {
     return async dispatch => {
@@ -43,6 +44,13 @@ export const deleteRoom = (id) => {
     return async dispatch => {
         await roomService.remove(id)
         dispatch(popRoom(id))
+    }
+}
+
+export const updateRoom = ({id, newRoom}) => {
+    return async dispatch => {
+        await roomService.update(id, newRoom)
+        dispatch(changeRoom({...newRoom, id}))
     }
 }
 
