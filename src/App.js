@@ -24,7 +24,7 @@ import UserEdit from "./components/useredit";
 import Events from "./components/events";
 import AddEvent from "./components/addevent";
 import RegEvent from "./components/regevent";
-import EventItem from "./components/eventitem";
+import EventEdit from "./components/eventEdit";
 import Locations from "./components/locations";
 import Rooms from "./components/rooms";
 import Discount from "./components/discounts";
@@ -120,7 +120,7 @@ const App = () => {
                 <Route path='/settings' element={<div />} />
 
                 <Route path='/events' element={<Events />} />
-                <Route path='/event/:id' element={<EventItem />} />
+                <Route path='/event/:id' element={<EventEdit />} />
                 <Route path='/addevent' element={<AddEvent />} />
                 <Route path='/regevent/:id' element={<RegEvent />} />
 

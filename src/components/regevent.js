@@ -3,63 +3,46 @@ import { useParams } from "react-router-dom";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Months } from "../helper";
-import eventService from "../services/events";
 import applicationService from "../services/applications";
-import roomService from "../services/rooms";
-import discountService from "../services/discounts";
 
 
 const RegEvent = () => {
 
-    const id = useParams().id
-    const user = useSelector(state => state.user)
-    const [roomsList, setRoomsList] = useState([])
-    const [currentEvent, setCurrentEvent] = useState({})
     const [datesRange, setDatesRange] = useState([])
     const [startDate, setStartDate] = useState(new Date())
-    const [discountsList, setDiscountsList] = useState([])
 
-
+    const id = useParams().id
+    const user = useSelector(state => state.user)
+    const currentEvent = useSelector(state => state.events.find(el => el.id === id))
     useEffect(() => {
+        if (currentEvent !== undefined) {
+            let dt1 = new Date(currentEvent.startDate)
+            setStartDate(dt1.toDateString())
 
-        async function fetchData() {
-            const events = await eventService.getOne(id)
-            const rooms = await roomService.getAll()
-            const discounts = await discountService.getAll()
-
-            if (discounts) {
-                setDiscountsList(discounts)
-            }
-
-            if (events) {
-                setCurrentEvent(events)
-
-                let dt1 = new Date(events.startDate)
-                setStartDate(dt1.toDateString())
-
-                const dt2 = new Date(events.endDate)
-                let dtRange = []
-                while (dt1 < dt2) {
-                    const el = {
-                        dtname: `${dt1.getDate()} ${Months[dt1.getMonth()]} ${dt1.getFullYear()}`,
-                        dtcode: dt1.toDateString()
-                    }
-                    dtRange.push(el)
-                    dt1.setDate(dt1.getDate() + 1);
+            const dt2 = new Date(currentEvent.endDate)
+            let dtRange = []
+            while (dt1 < dt2) {
+                const el = {
+                    dtname: `${dt1.getDate()} ${Months[dt1.getMonth()]} ${dt1.getFullYear()}`,
+                    dtcode: dt1.toDateString()
                 }
-                setDatesRange(dtRange)
-
-                if (rooms) {
-                    const newRooms = rooms.filter(el => el.location.id === events.location.id)
-                    setRoomsList(newRooms)
-                    console.log(newRooms)
-                }
+                dtRange.push(el)
+                dt1.setDate(dt1.getDate() + 1);
             }
-
+            setDatesRange(dtRange)
         }
-        const resEvents = fetchData()
+    }, [currentEvent])
 
-    }, [])
+    const discountsList = useSelector(state => state.discounts)
+
+    const roomsList = useSelector(state => {
+        if (currentEvent === undefined || currentEvent.location === null) {
+            return state.rooms
+        } else {
+            console.log('currentEvent.location', currentEvent)
+            return state.rooms.filter(el => el.location.id === currentEvent.location.id)
+        }
+    })
 
     const regEventSubmitHandler = (event) => {
         event.preventDefault()
@@ -73,15 +56,11 @@ const RegEvent = () => {
             discountId: event.target.discount.value
         }
         console.log("request application = ", application)
-        applicationService
-            .create(application)
-            .then(response => {
-                console.log(response)
-            })
+        console.log('currentEvent 2', currentEvent)
+        //applicationService.create(application).then(response => {console.log(response)})
     }
 
     const changeStartDate = (event) => {
-        //console.log('change start date to:', event.currentTarget.value)
         setStartDate(event.currentTarget.value)
     }
 
@@ -165,7 +144,7 @@ const RegEvent = () => {
                             {
                                 discountsList.map(el => (
                                     <option value={el.id} key={el.id}>
-                                        {el.name} (коэффициент {el.coefficient})
+                                        {el.name} (оплата {el.coefficient * 100}%)
                                     </option>
                                 ))
                             }
