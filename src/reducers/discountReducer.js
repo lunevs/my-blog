@@ -15,13 +15,14 @@ const discountReducer = createSlice({
         setDiscount(state, action) {
             return action.payload
         },
-        updateDiscount(state, action) {
-            return action.payload
+        changeDiscount(state, action) {
+            const updatedDiscount = action.payload
+            return state.map(el => (el.id !== updatedDiscount.id) ? el : updatedDiscount)
         }
     }
 })
 
-export const { popDiscount, appendDiscount, setDiscount, updateDiscount } = discountReducer.actions
+export const { popDiscount, appendDiscount, setDiscount, changeDiscount } = discountReducer.actions
 
 export const initializeDiscounts = () => {
     return async dispatch => {
@@ -41,6 +42,13 @@ export const deleteDiscount = (id) => {
     return async dispatch => {
         await discountService.remove(id)
         dispatch(popDiscount(id))
+    }
+}
+
+export const updateDiscount = ({id, newDiscount}) => {
+    return async dispatch => {
+        await discountService.update(id, newDiscount)
+        dispatch(changeDiscount({...newDiscount, id}))
     }
 }
 
