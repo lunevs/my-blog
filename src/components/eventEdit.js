@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import ApplicationsList from "./applicationsList";
 
 const curDt = new Date()
 
@@ -141,6 +142,22 @@ const EventEdit = () => {
             <Button variant="outline-primary" type="submit">Сохранить</Button>
 
         </Form>
+        <br />
+
+        <div>
+            моя заявка: / изменить / отменить
+        </div>
+
+        <br />
+
+        <div>
+            все заявки: / подтвердить / отказать - указать причину
+            <ApplicationsList />
+        </div>
+
+
+
+
     </div>
 
     )

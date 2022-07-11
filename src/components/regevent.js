@@ -51,13 +51,13 @@ const RegEvent = () => {
             startDate: event.target.startDate.value,
             endDate: event.target.endDate.value,
             user: user.id,
-            event: currentEvent.id,
+            eventId: currentEvent.id,
             roomId: event.target.bookedRoom.value,
             discountId: event.target.discount.value
         }
         console.log("request application = ", application)
         console.log('currentEvent 2', currentEvent)
-        //applicationService.create(application).then(response => {console.log(response)})
+        applicationService.create(application).then(response => {console.log(response)})
     }
 
     const changeStartDate = (event) => {
