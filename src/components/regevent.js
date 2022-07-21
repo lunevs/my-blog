@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Months } from "../helper";
 import applicationService from "../services/applications";
+import { createApplication } from "../reducers/applicationReducer"
 
 
 const RegEvent = () => {
 
     const [datesRange, setDatesRange] = useState([])
     const [startDate, setStartDate] = useState(new Date())
-
+    const dispatch = useDispatch()
     const id = useParams().id
     const user = useSelector(state => state.user)
     const currentEvent = useSelector(state => state.events.find(el => el.id === id))
@@ -55,9 +56,8 @@ const RegEvent = () => {
             roomId: event.target.bookedRoom.value,
             discountId: event.target.discount.value
         }
-        console.log("request application = ", application)
-        console.log('currentEvent 2', currentEvent)
-        applicationService.create(application).then(response => {console.log(response)})
+        //applicationService.create(application).then(response => {console.log(response)})
+        dispatch(createApplication(application))
     }
 
     const changeStartDate = (event) => {

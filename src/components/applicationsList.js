@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "react-bootstrap";
 import applicationService from '../services/applications'
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ApplicationsList = () => {
 
